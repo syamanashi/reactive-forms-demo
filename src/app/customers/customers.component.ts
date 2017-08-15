@@ -3,6 +3,18 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from
 
 import { Customer } from './customer';
 
+function emailMatcher(c: AbstractControl) {
+  const emailControl = c.get('email');
+  const confirmControl = c.get('confirmEmail');
+  if (emailControl.pristine || confirmControl.pristine) {
+    return null;
+  }
+  if (emailControl.value === confirmControl.value) {
+    return null;
+  }
+  return { 'match': true };
+}
+
 // Custom validator with parameters
 function ratingRange(min: number, max: number): ValidatorFn {
   return (c: AbstractControl): { [key: string]: boolean } | null => {
@@ -44,7 +56,7 @@ export class CustomersComponent implements OnInit {
       emailGroup: this.formBuilder.group({
         email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
         confirmEmail: ['', Validators.required],
-      }),
+      }, { validator: emailMatcher }),
       phone: '',
       notification: 'email',
       rating: ['', ratingRange(1, 5)],

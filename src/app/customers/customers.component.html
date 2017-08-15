@@ -37,7 +37,8 @@
           </div>
         </div>
 
-        <div formGroupName="emailGroup">
+        <div formGroupName="emailGroup"
+          [ngClass]="{'has-error': customerForm.get('emailGroup').errors}">
           <div class="form-group" [ngClass]="{'has-error': (customerForm.get('emailGroup.email').touched || customerForm.get('emailGroup.email').dirty) && !customerForm.get('emailGroup.email').valid }">
             <label class="col-md-2 control-label" for="emailId">Email</label>
 
@@ -65,9 +66,12 @@
             <div class="col-md-8">
               <input class="form-control" id="confirmEmailId" type="email" placeholder="Confirm Email (required)"
                 formControlName="confirmEmail" />
-              <span class="help-block" *ngIf="(customerForm.get('emailGroup.confirmEmail').touched || customerForm.get('emailGroup.confirmEmail').dirty) && customerForm.get('emailGroup.confirmEmail').errors">
-                <span *ngIf="customerForm.get('emailGroup.confirmEmail').errors.required">
+              <span class="help-block" *ngIf="(customerForm.get('emailGroup.confirmEmail').touched || customerForm.get('emailGroup.confirmEmail').dirty) && (customerForm.get('emailGroup.confirmEmail').errors || customerForm.get('emailGroup').errors)">
+                <span *ngIf="customerForm.get('emailGroup.confirmEmail').errors?.required">
                   Please confirm your email address.
+                </span>
+                <span *ngIf="customerForm.get('emailGroup').errors?.match">
+                  The confirmation does not match the email address.
                 </span>
               </span>
             </div>
