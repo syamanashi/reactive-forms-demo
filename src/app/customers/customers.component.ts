@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Customer } from './customer';
 
@@ -17,21 +17,21 @@ export class CustomersComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    // Set the form model (with defaults).
+    // Create the form model (with defaults).
     this.customerForm = this.formBuilder.group({
-      firstName: '', // alternatively, firstName: { value: '', disabled: false } -or- ['']
-      lastName: { value: '', disabled: false },
-      email: '',
+      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.maxLength(50)]],
+      email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
       sendCatalog: true,
     });
   }
 
-  save() {
+  save(): void {
     console.log(this.customerForm);
     console.log('Saved: ' + JSON.stringify(this.customerForm.value));
   }
 
-  populateTestData() {
+  populateTestData(): void {
     // Use patchValue when setting some of the FormGroup values.  Use setValue when setting them all.
     this.customerForm.patchValue({
       firstName: 'Sutton',
@@ -40,5 +40,7 @@ export class CustomersComponent implements OnInit {
       sendCatalog: false,
     });
   }
+
+  
 
 }
