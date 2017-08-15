@@ -1,8 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
 import { Customer } from './customer';
 
+// Custom validator with parameters
+function ratingRange(min: number, max: number): ValidatorFn {
+  return (c: AbstractControl): { [key: string]: boolean } | null => {
+    if (c.value !== undefined && (isNaN(c.value) || c.value < min || c.value > max)) {
+      return { 'range': true }; // Returns the name of the failed validation rule with the value of true.
+    }
+    return null;
+  }
+}
+
+/*
 // Custom validator
 function ratingRange(c: AbstractControl): { [key: string]: boolean } | null {
   if (c.value !== undefined && (isNaN(c.value) || c.value < 1 || c.value > 5)) {
@@ -10,6 +21,7 @@ function ratingRange(c: AbstractControl): { [key: string]: boolean } | null {
   }
   return null;
 }
+*/
 
 @Component({
   selector: 'app-customers',
@@ -32,7 +44,7 @@ export class CustomersComponent implements OnInit {
       email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
       phone: '',
       notification: 'email',
-      rating: ['', ratingRange],
+      rating: ['', ratingRange(1, 5)],
       sendCatalog: true,
     });
   }
