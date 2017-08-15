@@ -22,13 +22,23 @@ export class CustomersComponent implements OnInit {
       firstName: new FormControl(),
       lastName: new FormControl(),
       email: new FormControl(),
-      sendCatelog: new FormControl(true),
+      sendCatalog: new FormControl(true),
     });
   }
 
   save() {
     console.log(this.customerForm);
     console.log('Saved: ' + JSON.stringify(this.customerForm.value));
+  }
+
+  populateTestData() {
+    // Use patchValue when setting some of the FormGroup values.  Use setValue when setting them all.
+    this.customerForm.patchValue({
+      firstName: 'Sutton',
+      lastName: 'Yamanashi',
+      // email: 'syamanashi@gmail.com',
+      sendCatalog: false,
+    });
   }
 
 }

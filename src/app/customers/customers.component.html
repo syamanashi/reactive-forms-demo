@@ -63,13 +63,13 @@
           <div class="col-md-offset-1 col-md-8 checkbox">
             <label>
               <input id="sendCatalogId" type="checkbox"
-                formControlName="sendCatelog" />
+                formControlName="sendCatalog" />
               Send me your catalog
             </label>
           </div>
         </div>
 
-        <div *ngIf="customerForm.get('sendCatelog').value">
+        <!-- <div *ngIf="customerForm.get('sendCatelog').value">
           <div class="form-group">
             <label class="col-md-2 control-label">Address Type</label>
             <div class="col-md-8">
@@ -122,13 +122,18 @@
               <input type="number" class="form-control" id="zipId" placeholder="Zip Code">
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="form-group">
           <div class="col-md-4 col-md-offset-2">
             <span>
               <button class="btn btn-primary" type="submit" [disabled]="!customerForm.valid">
                 Save
+              </button>
+            </span>
+            <span>
+              <button class="btn btn-default" type="button" (click)="populateTestData()">
+                Test Data
               </button>
             </span>
           </div>
