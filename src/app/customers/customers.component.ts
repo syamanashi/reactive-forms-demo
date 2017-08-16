@@ -70,12 +70,14 @@ export class CustomersComponent implements OnInit {
       notification: 'email',
       rating: ['', ratingRange(1, 5)],
       sendCatalog: true,
-      addressType: 'home',
-      street1: '',
-      street2: '',
-      city: '',
-      state: '',
-      zip: '',
+      addressGroup: this.formBuilder.group({
+        addressType: 'home',
+        street1: '',
+        street2: '',
+        city: '',
+        state: '',
+        zip: '',
+      }),
     });
 
     this.customerForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
