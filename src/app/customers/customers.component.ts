@@ -84,6 +84,10 @@ export class CustomersComponent implements OnInit {
 
   }
 
+  addAddressGroup(): void {
+    this.addressArray.push(this.buildAddressGroup());
+  }
+
   buildAddressGroup(): FormGroup {
     return this.formBuilder.group({
       addressType: 'home',
