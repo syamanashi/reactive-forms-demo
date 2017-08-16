@@ -1,8 +1,10 @@
-# Reactive Forms Demo App
+# Angular Reactive Forms Demo App
 
 This project was the first app built as part of the Pluralsight course: Angular Reactive Forms by Deborah Kurata.
 
 The biggest difference between this build and her example is that this app is built with Angular CLI supplemented by a copy and paste of the HTML from the initial customer sign-up template-based form in the course example files found in the following repo: https://github.com/DeborahK/Angular2-ReactiveForms/tree/master/Demo-Start-Updated
+
+The app is based off of a single Angular Reactive Form with custom validation, event based validation, cross-field validation, and dynamically duplicate input items.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.0.
 
