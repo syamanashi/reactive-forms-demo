@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
+import 'rxjs/add/operator/debounceTime';
+
 import { Customer } from './customer';
 
 /** Cross-field validator */
@@ -73,7 +75,7 @@ export class CustomersComponent implements OnInit {
     this.customerForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
 
     const emailControl = this.customerForm.get('emailGroup.email');
-    emailControl.valueChanges.subscribe(value => this.setMessage(emailControl));
+    emailControl.valueChanges.debounceTime(2000).subscribe(value => this.setMessage(emailControl));
 
   }
 
