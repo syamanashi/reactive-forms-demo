@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from
 
 import { Customer } from './customer';
 
+/** Cross-field validator */
 function emailMatcher(c: AbstractControl) {
   const emailControl = c.get('email');
   const confirmControl = c.get('confirmEmail');
@@ -15,7 +16,7 @@ function emailMatcher(c: AbstractControl) {
   return { 'match': true };
 }
 
-// Custom validator with parameters
+/** Custom validator with parameters using ValidatorFn */
 function ratingRange(min: number, max: number): ValidatorFn {
   return (c: AbstractControl): { [key: string]: boolean } | null => {
     if (c.value !== undefined && (isNaN(c.value) || c.value < min || c.value > max)) {
@@ -25,8 +26,8 @@ function ratingRange(min: number, max: number): ValidatorFn {
   }
 }
 
+/** Custom validator returning null OR a key/value pair - where the key is the name of the broken validation rule and the value is true. */
 /*
-// Custom validator
 function ratingRange(c: AbstractControl): { [key: string]: boolean } | null {
   if (c.value !== undefined && (isNaN(c.value) || c.value < 1 || c.value > 5)) {
     return { 'range': true }; // Returns the name of the failed validation rule with the value of true.
@@ -49,7 +50,7 @@ export class CustomersComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    // Create the form model (with defaults).
+    // Create the form model (with defaults) with FormBuilder.
     this.customerForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: ['', [Validators.required, Validators.maxLength(50)]],
@@ -79,6 +80,7 @@ export class CustomersComponent implements OnInit {
     });
   }
 
+  /** Adjusting validation rules at run-time. */
   setNotification(notifyVia: string): void {
     // Create a reference to the phone form control.
     const phoneControl = this.customerForm.get('phone');
