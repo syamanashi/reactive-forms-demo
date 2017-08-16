@@ -46,6 +46,12 @@ export class CustomersComponent implements OnInit {
   // Set the data model which defines the data passed to and from a backend server.
   customer: Customer = new Customer();
   customerForm: FormGroup;
+  emailMessage: string;
+
+  private validationMessages = {
+    required: 'Please enter your email address.',
+    pattern: 'Please enter a valid email address.'
+  };
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -65,6 +71,10 @@ export class CustomersComponent implements OnInit {
     });
 
     this.customerForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
+
+    const emailControl = this.customerForm.get('emailGroup.email');
+    emailControl.valueChanges.subscribe(value => this.setMessage(emailControl));
+
   }
 
   save(): void {
@@ -92,6 +102,14 @@ export class CustomersComponent implements OnInit {
       phoneControl.clearValidators();
     }
     phoneControl.updateValueAndValidity();
+  }
+
+  setMessage(c: AbstractControl): void {
+    this.emailMessage = '';
+    if ((c.touched || c.dirty) && c.errors) {
+      this.emailMessage = Object.keys(c.errors).map(key => this.validationMessages[key]).join(' ');
+      // Note: The validation errors collection using the validation rule name as the key, as does our validationMessages structure.
+    }
   }
 
 }
