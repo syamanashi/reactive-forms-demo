@@ -62,6 +62,12 @@ export class CustomersComponent implements OnInit {
     pattern: 'Please enter a valid email address.'
   };
 
+  firstNameValidationMessage: string;
+  private firstNameValidationMessages = {
+    required: 'Please enter your first name.',
+    minlength: 'The first name must be longer than 3 characters.'
+  };
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -83,7 +89,11 @@ export class CustomersComponent implements OnInit {
     this.customerForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
 
     const emailControl = this.customerForm.get('emailGroup.email');
-    emailControl.valueChanges.debounceTime(2000).subscribe(value => this.setEmailValidationMessage(emailControl));
+    // emailControl.valueChanges.debounceTime(2000).subscribe(value => this.setEmailValidationMessage(emailControl));
+    emailControl.valueChanges.debounceTime(2000).subscribe(value => this.emailValidationMessage = this.getValidationMessage(emailControl, this.emailValidationMessages));
+
+    const firstNameControl = this.customerForm.get('firstName');
+    firstNameControl.valueChanges.debounceTime(500).subscribe(value => this.firstNameValidationMessage = this.getValidationMessage(firstNameControl, this.firstNameValidationMessages));
 
   }
 
@@ -135,6 +145,14 @@ export class CustomersComponent implements OnInit {
       this.emailValidationMessage = Object.keys(c.errors).map(key => this.emailValidationMessages[key]).join(' ');
       // Note: The validation errors collection using the validation rule name as the key, as does our validationMessages structure.
     }
+  }
+
+  getValidationMessage(c: AbstractControl, messages: any): string {
+    if ((c.touched || c.dirty) && c.errors) {
+      return Object.keys(c.errors).map(key => messages[key]).join(' ');
+      // Note: The validation errors collection using the validation rule name as the key, as does our validationMessages structure.
+    }
+    return '';
   }
 
 }
