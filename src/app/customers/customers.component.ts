@@ -28,7 +28,10 @@ function ratingRange(min: number, max: number): ValidatorFn {
   }
 }
 
-/** Custom validator returning null OR a key/value pair - where the key is the name of the broken validation rule and the value is true. */
+/**
+ * Custom validator returning null OR a key/value pair - where the key is the name of the broken validation rule and the value is true.
+ * A custom validator always takes an AbstractControl parameter (which is satisfied by either a FormControl or a FormGroup being validated).
+ */
 /*
 function ratingRange(c: AbstractControl): { [key: string]: boolean } | null {
   if (c.value !== undefined && (isNaN(c.value) || c.value < 1 || c.value > 5)) {
@@ -48,13 +51,13 @@ export class CustomersComponent implements OnInit {
   // Set the data model which defines the data passed to and from a backend server.
   customer: Customer = new Customer();
   customerForm: FormGroup;
-  emailMessage: string;
 
   get addressArray(): FormArray {
     return <FormArray>this.customerForm.get('addressArray'); // Casts as a <FormArray>.  Otherwise, the type would be an AbstractControl.
   }
 
-  private validationMessages = {
+  emailValidationMessage: string;
+  private emailValidationMessages = {
     required: 'Please enter your email address.',
     pattern: 'Please enter a valid email address.'
   };
@@ -80,7 +83,7 @@ export class CustomersComponent implements OnInit {
     this.customerForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
 
     const emailControl = this.customerForm.get('emailGroup.email');
-    emailControl.valueChanges.debounceTime(2000).subscribe(value => this.setMessage(emailControl));
+    emailControl.valueChanges.debounceTime(2000).subscribe(value => this.setEmailValidationMessage(emailControl));
 
   }
 
@@ -126,10 +129,10 @@ export class CustomersComponent implements OnInit {
     phoneControl.updateValueAndValidity();
   }
 
-  setMessage(c: AbstractControl): void {
-    this.emailMessage = '';
+  setEmailValidationMessage(c: AbstractControl): void {
+    this.emailValidationMessage = '';
     if ((c.touched || c.dirty) && c.errors) {
-      this.emailMessage = Object.keys(c.errors).map(key => this.validationMessages[key]).join(' ');
+      this.emailValidationMessage = Object.keys(c.errors).map(key => this.emailValidationMessages[key]).join(' ');
       // Note: The validation errors collection using the validation rule name as the key, as does our validationMessages structure.
     }
   }

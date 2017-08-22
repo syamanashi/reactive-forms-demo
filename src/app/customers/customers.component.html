@@ -39,14 +39,14 @@
 
         <div formGroupName="emailGroup"
           [ngClass]="{'has-error': customerForm.get('emailGroup').errors}">
-          <div class="form-group" [ngClass]="{'has-error': emailMessage}">
+          <div class="form-group" [ngClass]="{'has-error': emailValidationMessage}">
             <label class="col-md-2 control-label" for="emailId">Email</label>
 
             <div class="col-md-8">
               <input class="form-control" id="emailId" type="email" placeholder="Email (required)"
                 formControlName="email" />
-              <span class="help-block" *ngIf="emailMessage">
-                {{ emailMessage }}
+              <span class="help-block" *ngIf="emailValidationMessage">
+                {{ emailValidationMessage }}
               </span>
             </div>
           </div>
