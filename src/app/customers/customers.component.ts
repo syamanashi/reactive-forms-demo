@@ -97,6 +97,13 @@ export class CustomersComponent implements OnInit {
 
   }
 
+  onBlur(event, control: string) {
+    // console.log(event.target);
+    if (!event.target.value) {
+      this.firstNameValidationMessage = this.getValidationMessage(this.customerForm.get(control), this.firstNameValidationMessages)
+    }
+  }
+
   addAddressGroup(): void {
     this.addressArray.push(this.buildAddressGroup());
   }
