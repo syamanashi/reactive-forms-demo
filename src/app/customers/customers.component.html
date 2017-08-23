@@ -34,7 +34,9 @@
         </div>
 
         <div formGroupName="emailGroup"
-          [ngClass]="{'has-error': customerForm.get('emailGroup').errors}">
+        [ngClass]="{'has-error': emailValidationMessage || confirmEmailValidationMessage}">
+          <!-- [ngClass]="{'has-error': customerForm.get('emailGroup').errors}" -->
+
           <div class="form-group" [ngClass]="{'has-error': emailValidationMessage}">
             <label class="col-md-2 control-label" for="emailId">Email</label>
 
@@ -47,7 +49,20 @@
             </div>
           </div>
 
-          <div class="form-group" [ngClass]="{'has-error': (customerForm.get('emailGroup.confirmEmail').touched || customerForm.get('emailGroup.confirmEmail').dirty) && !customerForm.get('emailGroup.confirmEmail').valid }">
+          <div class="form-group" [ngClass]="{'has-error': confirmEmailValidationMessage}">
+            <label class="col-md-2 control-label" for="confirmEmailId">Confirm Email</label>
+
+            <div class="col-md-8">
+              <input class="form-control" id="confirmEmailId" type="email" placeholder="Confirm Email (required)"
+                (blur)="onBlur($event, 'emailGroup')"
+                formControlName="confirmEmail" />
+              <span class="help-block" *ngIf="confirmEmailValidationMessage">
+                {{ confirmEmailValidationMessage }}
+              </span>
+            </div>
+          </div>          
+
+          <!-- <div class="form-group" [ngClass]="{'has-error': (customerForm.get('emailGroup.confirmEmail').touched || customerForm.get('emailGroup.confirmEmail').dirty) && !customerForm.get('emailGroup.confirmEmail').valid }">
             <label class="col-md-2 control-label" for="confirmEmailId">Confirm Email</label>
 
             <div class="col-md-8">
@@ -62,7 +77,8 @@
                 </span>
               </span>
             </div>
-          </div>
+          </div> -->
+
         </div>
       
         <div class="form-group" [ngClass]="{'has-error': (customerForm.get('phone').touched || customerForm.get('phone').dirty) && !customerForm.get('phone').valid }">
@@ -220,6 +236,7 @@
     </form>
   </div>
 </div>
+<br>Confirm Email Touched: {{ customerForm.get('emailGroup.confirmEmail').touched }}
 <br>Dirty: {{ customerForm.dirty }}
 <br>Touched: {{ customerForm.touched }}
 <br>Valid: {{ customerForm.valid }}

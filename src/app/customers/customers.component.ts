@@ -9,6 +9,9 @@ import { Customer } from './customer';
 function emailMatcher(c: AbstractControl) {
   const emailControl = c.get('email');
   const confirmControl = c.get('confirmEmail');
+  if (!confirmControl.value && confirmControl.touched) {
+    return { 'required': true };
+  }
   if (emailControl.pristine || confirmControl.pristine) {
     return null;
   }
@@ -16,6 +19,14 @@ function emailMatcher(c: AbstractControl) {
     return null;
   }
   return { 'match': true };
+
+  // if (!confirmControl.value && confirmControl.touched) {
+  //   return { 'required': true };
+  // }
+  // if (confirmControl.value !== emailControl.value) {
+  //   return { 'match': true };
+  // }
+  // return null;
 }
 
 /** Custom validator with parameters using ValidatorFn */
@@ -62,6 +73,12 @@ export class CustomersComponent implements OnInit {
     pattern: 'Please enter a valid email address.'
   };
 
+  confirmEmailValidationMessage: string;
+  private confirmEmailValidationMessages = {
+    required: 'Please confirm your email address.',
+    match: 'The confirmation does not match the email address.'
+  };
+
   firstNameValidationMessage: string;
   private firstNameValidationMessages = {
     required: 'Please enter your first name.',
@@ -88,19 +105,30 @@ export class CustomersComponent implements OnInit {
 
     this.customerForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
 
+    const emailGroupControl = this.customerForm.get('emailGroup');
+    emailGroupControl.valueChanges.subscribe(value => this.confirmEmailValidationMessage = this.getValidationMessage(emailGroupControl, this.confirmEmailValidationMessages));
+
     const emailControl = this.customerForm.get('emailGroup.email');
+    emailControl.valueChanges.debounceTime(500).subscribe(value => this.emailValidationMessage = this.getValidationMessage(emailControl, this.emailValidationMessages));
     // emailControl.valueChanges.debounceTime(2000).subscribe(value => this.setEmailValidationMessage(emailControl));
-    emailControl.valueChanges.debounceTime(2000).subscribe(value => this.emailValidationMessage = this.getValidationMessage(emailControl, this.emailValidationMessages));
 
     const firstNameControl = this.customerForm.get('firstName');
     firstNameControl.valueChanges.debounceTime(500).subscribe(value => this.firstNameValidationMessage = this.getValidationMessage(firstNameControl, this.firstNameValidationMessages));
+    // * Note: There is also a statusChanges observable you can subscribe to which emits events on validation changes.
 
   }
 
   onBlur(event, control: string) {
-    // console.log(event.target);
-    if (!event.target.value) {
-      this.firstNameValidationMessage = this.getValidationMessage(this.customerForm.get(control), this.firstNameValidationMessages)
+    // firstName:
+    if (!event.target.value && control === 'firstName') {
+      this.firstNameValidationMessage = this.getValidationMessage(this.customerForm.get(control), this.firstNameValidationMessages);
+    }
+    // emailGroup:
+    if (!event.target.value && control === 'emailGroup') {
+      console.log(`emailGroup blurred and touched: ${this.customerForm.get('emailGroup').touched} and valid: ${this.customerForm.get('emailGroup').valid}`);
+      console.log(this.customerForm.get('emailGroup').errors);
+      this.confirmEmailValidationMessage = this.getValidationMessage(this.customerForm.get(control), this.confirmEmailValidationMessages);
+      console.log(this.confirmEmailValidationMessage);
     }
   }
 
@@ -125,7 +153,8 @@ export class CustomersComponent implements OnInit {
   }
 
   populateTestData(): void {
-    // Use patchValue when setting some of the FormGroup values.  Use setValue when setting them all.
+    // Use patchValue when setting some of the FormGroup values.
+    // Use setValue when setting them all.
     this.customerForm.patchValue({
       firstName: 'Sutton',
       lastName: 'Yamanashi',
