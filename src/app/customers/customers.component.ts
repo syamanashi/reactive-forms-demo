@@ -118,6 +118,21 @@ export class CustomersComponent implements OnInit {
 
   }
 
+  buildAddressGroup(): FormGroup {
+    return this.formBuilder.group({
+      addressType: 'home',
+      street1: '',
+      street2: '',
+      city: '',
+      state: '',
+      zip: '',
+    });
+  }
+
+  addAddressGroup(): void {
+    this.addressArray.push(this.buildAddressGroup());
+  }
+
   onBlur(event, control: string) {
     // firstName:
     if (!event.target.value && control === 'firstName') {
@@ -130,21 +145,6 @@ export class CustomersComponent implements OnInit {
       this.confirmEmailValidationMessage = this.getValidationMessage(this.customerForm.get(control), this.confirmEmailValidationMessages);
       console.log(this.confirmEmailValidationMessage);
     }
-  }
-
-  addAddressGroup(): void {
-    this.addressArray.push(this.buildAddressGroup());
-  }
-
-  buildAddressGroup(): FormGroup {
-    return this.formBuilder.group({
-      addressType: 'home',
-      street1: '',
-      street2: '',
-      city: '',
-      state: '',
-      zip: '',
-    });
   }
 
   save(): void {

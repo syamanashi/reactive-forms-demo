@@ -7,8 +7,9 @@
     <form class="form-horizontal" novalidate (ngSubmit)="save()" [formGroup]="customerForm">
       <fieldset>
         <div class="form-group" [ngClass]="{'has-error': firstNameValidationMessage}">
-          <label class="col-md-2 control-label" for="firstNameId">First Name</label>
-
+          <label class="col-md-2 control-label" for="firstNameId">
+            First Name
+          </label>
           <div class="col-md-8">
             <input class="form-control" id="firstNameId" type="text" placeholder="First Name (required)"
               (blur)="onBlur($event, 'firstName')"
@@ -20,8 +21,9 @@
         </div>
 
         <div class="form-group" [ngClass]="{'has-error': (customerForm.get('lastName').touched || customerForm.get('lastName').dirty) && !customerForm.get('lastName').valid }">
-          <label class="col-md-2 control-label" for="lastNameId">Last Name</label>
-
+          <label class="col-md-2 control-label" for="lastNameId">
+            Last Name
+          </label>
           <div class="col-md-8">
             <input class="form-control" id="lastNameId" type="text" placeholder="Last Name (required)"
               formControlName="lastName" />
@@ -38,8 +40,9 @@
           <!-- [ngClass]="{'has-error': customerForm.get('emailGroup').errors}" -->
 
           <div class="form-group" [ngClass]="{'has-error': emailValidationMessage}">
-            <label class="col-md-2 control-label" for="emailId">Email</label>
-
+            <label class="col-md-2 control-label" for="emailId">
+              Email
+            </label>
             <div class="col-md-8">
               <input class="form-control" id="emailId" type="email" placeholder="Email (required)"
                 formControlName="email" />
@@ -50,8 +53,9 @@
           </div>
 
           <div class="form-group" [ngClass]="{'has-error': confirmEmailValidationMessage}">
-            <label class="col-md-2 control-label" for="confirmEmailId">Confirm Email</label>
-
+            <label class="col-md-2 control-label" for="confirmEmailId">
+              Confirm Email
+            </label>
             <div class="col-md-8">
               <input class="form-control" id="confirmEmailId" type="email" placeholder="Confirm Email (required)"
                 (blur)="onBlur($event, 'emailGroup')"
@@ -82,8 +86,9 @@
         </div>
       
         <div class="form-group" [ngClass]="{'has-error': (customerForm.get('phone').touched || customerForm.get('phone').dirty) && !customerForm.get('phone').valid }">
-          <label class="col-md-2 control-label" for="phoneId">Phone</label>
-
+          <label class="col-md-2 control-label" for="phoneId">
+            Phone
+          </label>
           <div class="col-md-8">
             <input class="form-control" id="phoneId" type="phone" placeholder="Phone"
               formControlName="phone" />
@@ -96,7 +101,9 @@
         </div>
 
         <div class="form-group">
-          <label class="col-md-2 control-label">Send Notifications</label>
+          <label class="col-md-2 control-label">
+            Send Notifications
+          </label>
           <div class="col-md-8">
             <label class="radio-inline">
               <input type="radio" value="email"
@@ -112,7 +119,9 @@
         </div>
 
         <div class="form-group" [ngClass]="{'has-error': (customerForm.get('rating').touched || customerForm.get('rating').dirty) && !customerForm.get('rating').valid }">
-          <label for="ratingId" class="col-md-2 control-label">Rating</label>
+          <label for="ratingId" class="col-md-2 control-label">
+            Rating
+          </label>
           <div class="col-md-8">
             <input type="number" class="form-control" id="ratingId"
               formControlName="rating" />
@@ -122,7 +131,6 @@
               </span>
             </span>
           </div>
-
         </div>
 
         <div class="form-group">
@@ -147,10 +155,13 @@
           </div>
 
           <div formArrayName="addressArray" *ngFor="let addressGroup of addressArray.controls; let i = index">
+
             <div [formGroupName]="i"> <!-- position i of the addressArray -->
-              
+
               <div class="form-group">
-                <label class="col-md-2 control-label">Address Type</label>
+                <label class="col-md-2 control-label">
+                  Address Type
+                </label>
                 <div class="col-md-8">
                   <label class="radio-inline">
                     <input type="radio" id="{{ 'addressType1Id' + i }}" value="home"
@@ -171,7 +182,9 @@
               </div>
 
               <div class="form-group">
-                <label class="col-md-2 control-label" attr.for="{{ 'street1Id' + i }}">Street Address 1</label> <!-- Use attr.Binding.  We cannot bind to 'for' directly since it has no assocated DOM property. -->
+                <label class="col-md-2 control-label" attr.for="{{ 'street1Id' + i }}">
+                  Street Address 1
+                </label> <!-- Use attr.Binding.  We cannot bind to 'for' directly since it has no assocated DOM property. -->
                 <div class="col-md-8">
                   <input type="text" class="form-control" id="{{ 'street1Id' + i }}" placeholder="Street address"
                     formControlName="street1" />
@@ -179,7 +192,9 @@
               </div>
     
               <div class="form-group">
-                <label class="col-md-2 control-label" attr.for="{{ 'street2Id' + i }}">Street Address 2</label>
+                <label class="col-md-2 control-label" attr.for="{{ 'street2Id' + i }}">
+                  Street Address 2
+                </label>
                 <div class="col-md-8">
                   <input type="text" class="form-control" id="{{ 'street2Id' + i }}" placeholder="Street address (second line)"
                     formControlName="street2" />
@@ -187,7 +202,9 @@
               </div>
     
               <div class="form-group">
-                <label class="col-md-2 control-label" attr.for="{{ 'cityId' + i }}">City, State, Zip Code</label>
+                <label class="col-md-2 control-label" attr.for="{{ 'cityId' + i }}">
+                  City, State, Zip Code
+                </label>
                 <div class="col-md-3">
                   <input type="text" class="form-control" id="{{ 'cityId' + i }}" placeholder="City"
                     formControlName="city" />
@@ -212,9 +229,9 @@
                 </div>
               </div>
 
-            </div>
+            </div> <!-- /formGroupName -->
   
-          </div>
+          </div> <!-- /addressArray -->
         </div>
 
 
@@ -232,6 +249,7 @@
             </span>
           </div>
         </div>
+
       </fieldset>
     </form>
   </div>
