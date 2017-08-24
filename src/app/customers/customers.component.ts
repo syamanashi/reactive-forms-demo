@@ -121,7 +121,7 @@ export class CustomersComponent implements OnInit {
   buildAddressGroup(): FormGroup {
     return this.formBuilder.group({
       addressType: 'home',
-      street1: '',
+      street1: ['', Validators.required],
       street2: '',
       city: '',
       state: '',
